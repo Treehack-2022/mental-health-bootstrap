@@ -75,11 +75,11 @@ function find_top_therapist(database, user, ethnicity, weights=[1,1]){
             score_boost = 0.5
         }
         //console.log(weights[0]*jaccard_similarity(area_list, area_user))
-        candidate_scores.push(score_boost+weights[0]*jaccard_similarity( area_list, area_user)+weights[1]*compute_similarity_score(ethnic_user, ethic_list, ethnicity))
-        candidate_names.push(candidate)
+        candidate_scores.push(score_boost+weights[0]*jaccard_similarity( area_list, area_user)+weights[1]*compute_similarity_score(ethnic_user, ethic_list, ethnicity));
+        candidate_names.push(candidate);
     }
     const result = dsu(candidate_names, candidate_scores);
-    console.log(result)
+    return result
 }
 
 var array1 = [1,0,0,1];
@@ -92,5 +92,5 @@ const therapists = require('./data.json');
 //console.log(therapists["Akane Shiro"])
 const user = {'Ethnicity':['Asian'],'Area':['Anxiety/Stress', 'Depression'], 'Language':'Chinese'};
 
-find_top_therapist(therapists, user, ethnicity, weights=[0.5,0.5])
+const result = find_top_therapist(therapists, user, ethnicity, weights=[0.5,0.5])
 //console.log(therapists);
