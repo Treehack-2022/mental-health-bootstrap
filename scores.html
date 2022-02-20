@@ -15,7 +15,7 @@
         if (typeof(Storage) !== "undefined") {
             var res = localStorage.getItem("TotalScore")
             var text1 = "You Scored " + res + "/30"
-            var text2 = "Based on the K10, "+res+"/30 indicates"
+            var text2 = "Based on the K10, "+ res +"/30 indicates"
             if (parseInt(res) <=19){
                 text2 += "low likelihood to have mental illness"
             } else if (parseInt(res)<30){
@@ -77,7 +77,6 @@
                         <li>
                             <div id="result2"></div>
                         </li>
-
                     </ul>
                     <ul>
                         <li>
