@@ -92,12 +92,12 @@ function find_top_therapist(database, user, ethnicity, sex_list, gender_list, we
         candidate_scores.push(score_boost+candidate_score);
         candidate_names.push(candidate);
     }
-    const result = dsu(candidate_names, candidate_scores);
-    return result
+    for(var i=0; i<candidate_scores.length; i++){
+        console.log(candidate_scores[i],candidate_names[i])
+    }
+    return dsu(candidate_names, candidate_scores)
 }
 
-var array1 = [1,0,0,1];
-var array2 = [1,0,0,0];
 
 const language = ['English','Chinese','Hindi','Spanish','Arabic','Bengali','French','Russian'];
 const ethnicity = ['Asian','White ','Hispanic or Latinx','Black or African American','Middle Eastern or North African','Native Hawaiian or Pacific Islander','First Nation or Indigenous American','Mixed'];
@@ -113,4 +113,5 @@ const perfernce_rank = user['Preference'] // rank on Gender,Sexual Orientation,R
 
 const weight = [1/perfernce_rank[0], 1/perfernce_rank[1], 1/perfernce_rank[2], 1/perfernce_rank[3]]
 const result = find_top_therapist(therapists, user, ethnicity, sex_list, gender_list, weights=weight)
+
 console.log(result);
