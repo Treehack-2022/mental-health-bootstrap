@@ -14,8 +14,9 @@
 <script>
     // Check browser support
     function set_score() {
-        if (typeof (Storage) !== "undefined") {
-            var res = localStorage.getItem("TotalScore")
+        var res = location.search.substring(1)
+        if (true) {
+            // var res = localStorage.getItem("TotalScore")
             var text1 = "You Scored " + res + "/30"
             var text2 = "Based on the K10, " + res + "/30 indicates"
             if (parseInt(res) <= 19) {

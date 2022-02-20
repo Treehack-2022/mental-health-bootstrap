@@ -121,7 +121,7 @@ const userTom = {'Ethnicity':['Black or African American'],'Area':['Attention/Co
 
 //=-=-=-=-=-=-=-=-=-=-DEMO-=-=-===-=-=-==-=-===-=-=-=-=-=-=-
 
-//const result = find_top_therapist(therapists, userSami, ethnicity, sex_list, gender_list)
+// const result = find_top_therapist(therapists, userSami, ethnicity, sex_list, gender_list)
 const result = find_top_therapist(therapists, userTom, ethnicity, sex_list, gender_list)
 
 console.log(result);
