@@ -106,10 +106,10 @@ const sex_list = ['Straight/Heterosexual','Gay/Lesbian/Homosexual','Bisexual','Q
 const gender_list = ['Cisgender Male','Cisgeder Female','Transgender Male','Transgender Female','Nonbinary']
 
 const therapists = require('./data2.json');
-//console.log(therapists["Akane Shiro"])
-const user = {'Ethnicity':['Asian'],'Area':['Anxiety/Stress', 'Depression'], 'Language':'Chinese'};
+//Preference = [3,4,2,1] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status (this means that Immagrat Status > Race > Gender > Sexual orientation
+const user = {'Ethnicity':['Asian'],'Area':['Anxiety/Stress', 'Depression'], 'Language':'Chinese', 'Preference':[3,4,2,1]};
 
-const perfernce_rank = [3,4,2,1] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status
+const perfernce_rank = user['Preference'] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status
 
 const weight = [1/perfernce_rank[0], 1/perfernce_rank[1], 1/perfernce_rank[2], 1/perfernce_rank[3]]
 const result = find_top_therapist(therapists, user, ethnicity, sex_list, gender_list, weights=weight)
