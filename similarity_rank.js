@@ -58,7 +58,7 @@ function jaccard_similarity(A, B){
     return interset_set.size/union_set.size
 }
 
-function find_top_therapist(database, user, ethnicity, weights=[1,1]){
+function find_top_therapist(database, user, ethnicity, sex_list, gender_list, weights=[1,1]){
     // language and ethnicity importance are assigned in weights
     const language_user = user["Language"];
     const ethnic_user = user["Ethnicity"];
@@ -67,6 +67,7 @@ function find_top_therapist(database, user, ethnicity, weights=[1,1]){
     const candidate_names = []
     const candidate_scores = [];
     for (const [candidate, value] of Object.entries(database)) {
+        var candidate_score = 0.0
         score_boost = 0
         const language_list = database[candidate]["language"];
         const ethic_list = database[candidate]["Ethnicity"];
@@ -74,8 +75,21 @@ function find_top_therapist(database, user, ethnicity, weights=[1,1]){
         if (language_list.includes(language_user)){
             score_boost = 0.5
         }
+        if (database[candidate]['Gender']===user['Gender']){
+            candidate_score += weights[0]*0.5;
+        }
+        if (database[candidate]['specialized on topics related to sexual orientation']==='True'){
+            candidate_score += weights[1]*0.5;
+        }
+        if (database[candidate]['specialized on topics related to immigrant'] ==='True'){
+            candidate_score += weights[3]*0.5;
+        }
+
         //console.log(weights[0]*jaccard_similarity(area_list, area_user))
-        candidate_scores.push(score_boost+weights[0]*jaccard_similarity( area_list, area_user)+weights[1]*compute_similarity_score(ethnic_user, ethic_list, ethnicity));
+        candidate_score += jaccard_similarity( area_list, area_user); // weight on area
+        candidate_score += weights[2]*compute_similarity_score(ethnic_user, ethic_list, ethnicity);
+
+        candidate_scores.push(score_boost+candidate_score);
         candidate_names.push(candidate);
     }
     const result = dsu(candidate_names, candidate_scores);
@@ -88,9 +102,15 @@ var array2 = [1,0,0,0];
 const language = ['English','Chinese','Hindi','Spanish','Arabic','Bengali','French','Russian'];
 const ethnicity = ['Asian','White ','Hispanic or Latinx','Black or African American','Middle Eastern or North African','Native Hawaiian or Pacific Islander','First Nation or Indigenous American','Mixed'];
 const area = ['Anxiety/Stress','Depression','Relationship Issues','Attention/Concentration','Eating/Body Image','Trauma','Suicidal Thoughts','Alcohol and/or Other Drugs','Grief/Loss','Self Esteem/Self Confidence','Academic Issues','Identity Related Concerns','Self Harm'];
-const therapists = require('./data.json');
+const sex_list = ['Straight/Heterosexual','Gay/Lesbian/Homosexual','Bisexual','Queer','Pansexual','Asexual','Questioning'];
+const gender_list = ['Cisgender Male','Cisgeder Female','Transgender Male','Transgender Female','Nonbinary']
+
+const therapists = require('./data2.json');
 //console.log(therapists["Akane Shiro"])
 const user = {'Ethnicity':['Asian'],'Area':['Anxiety/Stress', 'Depression'], 'Language':'Chinese'};
 
-const result = find_top_therapist(therapists, user, ethnicity, weights=[0.5,0.5])
-//console.log(therapists);
+const perfernce_rank = [3,4,2,1] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status
+
+const weight = [1/perfernce_rank[0], 1/perfernce_rank[1], 1/perfernce_rank[2], 1/perfernce_rank[3]]
+const result = find_top_therapist(therapists, user, ethnicity, sex_list, gender_list, weights=weight)
+console.log(result);
