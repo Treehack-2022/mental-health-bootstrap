@@ -471,7 +471,7 @@
 
                 <div class="d-flex align-items-center pt-3">
                     <div class="d-flex justify-content-center">                             
-                        <a href="scores.html" class="btn btn-warning px-4 py-2 fw-bold">Next</a>
+                        <a id="submit_button" class="btn btn-warning px-4 py-2 fw-bold">Next</a>
                 </div>
                 <script>
                     document.getElementById("submit_button").onclick = function() {
@@ -487,7 +487,10 @@
                                 }
                             }
                         }
-                        sessionStorage.setItem("TotalScore", total);
+                        //document.getElementById("scorepage").href="scores.html?"+total.toString()
+                        localStorage.setItem("TotalScore", total.toString());
+                        // document.getElementsById("scorepage").href =
+                        window.location.href = "scores.html?"+ total.toString()
                     };
                 </script>
             </div>

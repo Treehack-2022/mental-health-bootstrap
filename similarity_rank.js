@@ -58,8 +58,10 @@ function jaccard_similarity(A, B){
     return interset_set.size/union_set.size
 }
 
-function find_top_therapist(database, user, ethnicity, sex_list, gender_list, weights=[1,1]){
+function find_top_therapist(database, user, ethnicity, sex_list, gender_list){
     // language and ethnicity importance are assigned in weights
+    const perfernce_rank = user['Preference'] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status
+    const weights = [1/perfernce_rank[0], 1/perfernce_rank[1], 1/perfernce_rank[2], 1/perfernce_rank[3]]
     const language_user = user["Language"];
     const ethnic_user = user["Ethnicity"];
     const area_user = user['Area'];
@@ -107,11 +109,20 @@ const gender_list = ['Cisgender Male','Cisgeder Female','Transgender Male','Tran
 
 const therapists = require('./data2.json');
 //Preference = [3,4,2,1] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status (this means that Immagrat Status > Race > Gender > Sexual orientation
-const user = {'Ethnicity':['Asian'],'Area':['Anxiety/Stress', 'Depression'], 'Language':'Chinese', 'Preference':[3,4,2,1]};
 
-const perfernce_rank = user['Preference'] // rank on Gender,Sexual Orientation,Race/Ethnicity,Immigrant Status
 
-const weight = [1/perfernce_rank[0], 1/perfernce_rank[1], 1/perfernce_rank[2], 1/perfernce_rank[3]]
-const result = find_top_therapist(therapists, user, ethnicity, sex_list, gender_list, weights=weight)
+
+// Sami wants to find someone with similar immigrant/cultural background to talk about Anxiety/Stress and Depression
+const userSami = {'Ethnicity':['Asian'],'Area':['Anxiety/Stress', 'Depression'], 'Gender':"Cisgeder Female", 'Language':'Chinese', 'Preference':[3,4,2,1]};
+
+// Tom wants someone who shares his Race/Ethnicity to talk about his Attention/Concentration issue
+const userTom = {'Ethnicity':['Black or African American'],'Area':['Attention/Concentration'], 'Gender':"Transgender Male",'Language':'English', 'Preference':[2,3,1,4]};
+
+
+//=-=-=-=-=-=-=-=-=-=-DEMO-=-=-===-=-=-==-=-===-=-=-=-=-=-=-
+
+//const result = find_top_therapist(therapists, userSami, ethnicity, sex_list, gender_list)
+const result = find_top_therapist(therapists, userTom, ethnicity, sex_list, gender_list)
 
 console.log(result);
+console.log(therapists[result[0]]);
